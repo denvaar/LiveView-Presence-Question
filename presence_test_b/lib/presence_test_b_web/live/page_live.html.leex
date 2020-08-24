@@ -1,0 +1,15 @@
+<h1>Lobby</h1>
+
+<h4>Connected Players</h4>
+<%= if @game do %>
+  <ul>
+    <%= for player <- @game.players do %>
+      <li>
+        <%= player.id %>
+        <%= if player.id == @current_user_id do %>
+          (You)
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
