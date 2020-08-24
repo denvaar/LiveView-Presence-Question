@@ -8,14 +8,14 @@ and play against each other to answer questions for points. I want the GameServe
 to be the source of truth for the details of a game, including who the players are. Each
 LiveView process will need to store a copy of the game state from GameServer.
 
-[Shown here](), one option could be to [track](https://hexdocs.pm/phoenix/Phoenix.Presence.html#c:track/4) each LiveView process
+[Shown here](https://github.com/denvaar/LiveView-Presence-Question/tree/master/presence_test_b), one option could be to [track](https://hexdocs.pm/phoenix/Phoenix.Presence.html#c:track/4) each LiveView process
 using a topic that they are subscribed to. When players join and leave the game, the `"presence_diff"` event can
 be handled by each subscribed LiveView process. To handle the event, each LiveView process would
 use the GameServer API to update their own copy of the game state. The thing I don't like about this
 approach is that the flow of data seems a little backwards to me (eg. Presence tells the LiveView processes
 about players, and then each LiveView process tells the GameServer).
 
-Another option [shown here]() would be to still [track](https://hexdocs.pm/phoenix/Phoenix.Presence.html#c:track/4) each LiveView process,
+Another option [shown here](https://github.com/denvaar/LiveView-Presence-Question/tree/master/presence_test_a) would be to still [track](https://hexdocs.pm/phoenix/Phoenix.Presence.html#c:track/4) each LiveView process,
 but using a dedicated topic, which only the GameServer process is subscribed to (eg. `"game:presences:<game_id>"`). The GameServer process
 itself could handle `"presence_diff"`, and broadcast the updated game state (including players) to each LiveView process over
 another topic (eg. `"game:updates:<game_id>"`). I like this approach because the data flow makes sense to me:
